@@ -1,6 +1,7 @@
 package com.example.duonghoangp3
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,6 +11,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
@@ -20,6 +22,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.duonghoangp3.databinding.ActivityMapsBinding
+import retrofit2.Call
+import retrofit2.Response
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -31,8 +36,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationByNetwork: Location?= null
     private var locationByGps: Location?= null
 
-    private var latitude: Double?= 0.0
-    private var longitude: Double?= 0.0
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
     private val gpsLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
@@ -68,6 +73,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermission()
         }
 
+        val weatherAPIKey = "91dc5b7f3139e986de818ac9bad6a77f"
+        Toast.makeText(this,"Latitude is $latitude",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Longitude is $longitude",Toast.LENGTH_LONG).show()
+
+        val request = ServiceBuilder.buildService(Endpoint::class.java)
+        val call = request.getWeather(latitude,longitude,weatherAPIKey)
+
+        call.enqueue(object: retrofit2.Callback<Weather>{
+            override fun onResponse(call: Call<Weather>, response: Response<Weather>) {
+                if(response.isSuccessful){
+                    val test = response.body()
+                    Log.d(TAG, test.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Weather>, t: Throwable) {
+                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                Log.d(TAG,"${t.message}")
+            }
+        })
 
 
 
@@ -139,8 +164,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(locationByGps != null || locationByNetwork != null){
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            Toast.makeText(this,"Latitude is $latitude",Toast.LENGTH_LONG).show()
-            Toast.makeText(this,"Longitude is $longitude",Toast.LENGTH_LONG).show()
+//            Toast.makeText(this,"Latitude is $latitude",Toast.LENGTH_LONG).show()
+//            Toast.makeText(this,"Longitude is $longitude",Toast.LENGTH_LONG).show()
 
             val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -199,7 +224,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(latitude!!, longitude!!)
+        val sydney = LatLng(latitude, longitude)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
