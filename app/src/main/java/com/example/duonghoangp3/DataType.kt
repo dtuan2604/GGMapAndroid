@@ -11,7 +11,11 @@ data class Main(
     val temp: String,
     val feels_like: String
 )
-data class Weather(
+data class WeatherList(
     val weather: List<WeatherResult>,
-    val main: Main
+    val main: Main,
+    val dt_txt: String
+)
+data class Weather(
+    val list: List<WeatherList>
 )
