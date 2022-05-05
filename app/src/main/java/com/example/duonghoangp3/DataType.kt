@@ -9,7 +9,6 @@ data class WeatherResult(
 )
 data class Main(
     val temp: String,
-    val feels_like: String
 )
 data class WeatherList(
     val weather: List<WeatherResult>,
