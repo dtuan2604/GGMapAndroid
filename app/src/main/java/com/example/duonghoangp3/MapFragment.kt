@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -147,12 +146,11 @@ class MapFragment: Fragment(), OnMapReadyCallback {
 
         if(locationByGps != null || locationByNetwork != null){
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            Toast.makeText(context,"Latitude is $latitude",Toast.LENGTH_LONG).show()
-            Toast.makeText(context,"Longitude is $longitude",Toast.LENGTH_LONG).show()
+//            Toast.makeText(context,"Latitude is $latitude",Toast.LENGTH_LONG).show()
+//            Toast.makeText(context,"Longitude is $longitude",Toast.LENGTH_LONG).show()
+
             locationModel.setLocation(latitude,longitude)
 
-//            val mapFragment = requireActivity().supportFragmentManager
-//                .findFragmentById(R.id.map) as SupportMapFragment
             val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
             mapFragment.getMapAsync(this)
         }else{

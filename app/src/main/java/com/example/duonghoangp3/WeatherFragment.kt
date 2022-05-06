@@ -10,7 +10,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,15 +41,19 @@ class WeatherFragment: Fragment() {
         val longitude = locationModel.longitude
 
         val request = ServiceBuilder.buildService(Endpoint::class.java)
-        locationModel.currentLat.observe(viewLifecycleOwner,Observer {
-            val call = request.getWeather(latitude,longitude,weatherAPIKey)
+        locationModel.currentLat.observe(viewLifecycleOwner) {
+            val call = request.getWeather(latitude, longitude, weatherAPIKey)
 
-            call.enqueue(object: retrofit2.Callback<Weather>{
+            call.enqueue(object : retrofit2.Callback<Weather> {
                 override fun onResponse(call: Call<Weather>, response: Response<Weather>) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         progressBar?.visibility = View.GONE
                         title.text = response.body()!!.city.name
                         val result = response.body()!!.list
+
+                        locationModel.setRaining(result[0].weather[0].id)
+
+
 //                    Log.d(ContentValues.TAG, test.toString())
                         rvWeather?.apply {
                             setHasFixedSize(true)
@@ -63,10 +66,10 @@ class WeatherFragment: Fragment() {
 
                 override fun onFailure(call: Call<Weather>, t: Throwable) {
                     Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
-                    Log.d(ContentValues.TAG,"${t.message}")
+                    Log.d(ContentValues.TAG, "${t.message}")
                 }
             })
-        })
+        }
 
 
     }
