@@ -3,4 +3,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="weather_forecast">Weather Forecast</string>
     <string name="weather_icon">Weather Icon</string>
+    <string name="weather_description">Weather Description</string>
+    <string name="weather_temperature">Weather Temperature</string>
+    <string name="weather_timer">Weather Timer</string>
 </resources>

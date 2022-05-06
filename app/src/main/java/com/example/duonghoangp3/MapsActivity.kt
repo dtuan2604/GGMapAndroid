@@ -7,10 +7,12 @@ import android.widget.Toast
 
 import com.example.duonghoangp3.databinding.ActivityMainBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 
 class MapsActivity : AppCompatActivity() {
     private val mapFr = MapFragment()
     private val weatherFr = WeatherFragment()
+    private lateinit var locationModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +22,7 @@ class MapsActivity : AppCompatActivity() {
 
         setContentView(mainViewBinding.root)
 
-
+        locationModel = ViewModelProvider(this).get(LocationViewModel::class.java)
 
         setFragment(mapFr)
         mainViewBinding.bottomNavView.setOnItemSelectedListener { item ->

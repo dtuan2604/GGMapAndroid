@@ -8,13 +8,17 @@ data class WeatherResult(
     val icon: String
 )
 data class Main(
-    val temp: String,
+    val temp: Double,
 )
 data class WeatherList(
     val weather: List<WeatherResult>,
     val main: Main,
     val dt_txt: String
 )
+data class City(
+    val name: String
+)
 data class Weather(
-    val list: List<WeatherList>
+    val list: List<WeatherList>,
+    val city: City
 )

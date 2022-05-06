@@ -17,12 +17,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.lang.Exception
 
 class MapFragment: Fragment(), OnMapReadyCallback {
     override fun onCreateView(
@@ -62,8 +64,13 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
+
+    private lateinit var locationModel: LocationViewModel
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        locationModel = activity?.run { ViewModelProvider(this).get(LocationViewModel::class.java) } ?: throw Exception("Invalid Activity")
 
         if(checkPermission()){
             getLocation()
@@ -71,7 +78,7 @@ class MapFragment: Fragment(), OnMapReadyCallback {
         else{
             requestPermission()
         }
-        
+
     }
 
     @SuppressLint("MissingPermission")
@@ -142,6 +149,7 @@ class MapFragment: Fragment(), OnMapReadyCallback {
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             Toast.makeText(context,"Latitude is $latitude",Toast.LENGTH_LONG).show()
             Toast.makeText(context,"Longitude is $longitude",Toast.LENGTH_LONG).show()
+            locationModel.setLocation(latitude,longitude)
 
 //            val mapFragment = requireActivity().supportFragmentManager
 //                .findFragmentById(R.id.map) as SupportMapFragment

@@ -25,40 +25,43 @@
 
             <TextView
                 android:id="@+id/tvWeatherTimer"
-                android:layout_width="154dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="33dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="143dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="98dp"
                 android:layout_toEndOf="@+id/ivWeatherIcon"
-                android:text="TextView" />
+                android:text="@string/weather_timer"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvWeatherTemp"
-                android:layout_width="80dp"
+                android:layout_width="88dp"
                 android:layout_height="80dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="237dp"
+                android:layout_marginStart="224dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="0dp"
                 android:layout_toEndOf="@+id/ivWeatherIcon"
-                android:text="TextView" />
+                android:text="@string/weather_temperature"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvWeatherDesc"
-                android:layout_width="152dp"
-                android:layout_height="39dp"
+                android:layout_width="197dp"
+                android:layout_height="46dp"
                 android:layout_below="@+id/tvWeatherTimer"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="31dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="129dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="96dp"
                 android:layout_marginBottom="27dp"
                 android:layout_toEndOf="@+id/ivWeatherIcon"
-                android:text="TextView" />
+                android:text="@string/weather_description"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

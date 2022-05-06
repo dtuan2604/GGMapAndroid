@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class WeatherAdapter(private val weathers: List<WeatherList>): RecyclerView.Adapter<WeatherViewHolder>() {
 
@@ -33,9 +35,13 @@ class WeatherViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
     @SuppressLint("SetTextI18n")
     fun bind(weather: WeatherList){
+        val df = DecimalFormat("#")
+        df.roundingMode = RoundingMode.DOWN
+        val tempTemp : String = df.format(weather.main.temp - 273.15)
         Glide.with(itemView.context).load("http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png").into(icon)
         timer.text = weather.dt_txt
-        temp.text = weather.main.temp + " K"
+
+        temp.text = "$tempTemp°C"
         description.text = weather.weather[0].description
     }
 }

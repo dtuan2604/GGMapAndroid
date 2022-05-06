@@ -7,28 +7,34 @@
 
     <TextView
         android:id="@+id/tvWeather"
-        android:text="@string/weather_forecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="87dp"
+        android:layout_marginEnd="87dp"
+        android:text="@string/weather_forecast"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWeather"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tvWeather"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/tvWeather"/>
+        android:layout_marginBottom="10dp" />
 
     <ProgressBar
         android:id="@+id/pbProgressBar"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:scaleY="4"
-        android:scaleX="4"
+        android:indeterminate="true"
         android:indeterminateBehavior="repeat"
-        android:indeterminate="true"/>
+        android:scaleX="4"
+        android:scaleY="4" />
 
 </RelativeLayout>
