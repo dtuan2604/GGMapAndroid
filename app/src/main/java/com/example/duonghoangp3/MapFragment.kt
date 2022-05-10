@@ -2,6 +2,7 @@ package com.example.duonghoangp3
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,6 +11,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import retrofit2.Call
+import retrofit2.Response
 import java.lang.Exception
 
 class MapFragment: Fragment(), OnMapReadyCallback {
@@ -191,10 +195,34 @@ class MapFragment: Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(latitude, longitude)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val weatherAPIKey = "91dc5b7f3139e986de818ac9bad6a77f"
+        val request = ServiceBuilder.buildService(Endpoint::class.java)
+
+        var city: String
+        var mainDesc: String
+
+        val call = request.getCurrentWeather(latitude, longitude, weatherAPIKey)
+        call.enqueue(object: retrofit2.Callback<CurrentWeather>{
+            override fun onResponse(
+                call: Call<CurrentWeather>,
+                response: Response<CurrentWeather>
+            ) {
+                if(response.isSuccessful){
+                    city = response.body()!!.name
+                    mainDesc = response.body()!!.weather[0].main
+
+                    val curLocation = LatLng(latitude, longitude)
+                    mMap.addMarker(MarkerOptions().position(curLocation).title("$city: $mainDesc"))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(curLocation))
+                }
+            }
+
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                Log.d(ContentValues.TAG, "${t.message}")
+            }
+        })
+
     }
 }
 

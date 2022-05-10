@@ -22,3 +22,8 @@ data class Weather(
     val list: List<WeatherList>,
     val city: City
 )
+
+data class CurrentWeather(
+    val weather: List<WeatherResult>,
+    val name: String
+)
